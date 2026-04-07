@@ -1,0 +1,225 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+:root {
+  --background: 230 25% 2%;
+  --foreground: 210 40% 98%;
+  --card: 230 25% 4%;
+  --card-foreground: 210 40% 98%;
+  --primary: 199 89% 48%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 262 83% 58%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 199 89% 48%;
+  --accent-foreground: 210 40% 98%;
+  --border: 230 25% 10%;
+  --radius: 1rem;
+  
+  --neon-cyan: #00baff;
+  --neon-rose: #f43f5e;
+  --cyber-bg: #02040a;
+}
+
+body {
+  background-color: var(--cyber-bg);
+  color: #f0f9ff;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom Cursor */
+.custom-cursor {
+  width: 8px;
+  height: 8px;
+  background: var(--neon-cyan);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: screen;
+  box-shadow: 0 0 15px var(--neon-cyan), 0 0 30px var(--neon-cyan);
+}
+
+.custom-cursor-outline {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(0, 186, 255, 0.4);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-cursor-outline::after {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-top: 1px solid var(--neon-cyan);
+  border-left: 1px solid var(--neon-cyan);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.custom-cursor-outline::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-bottom: 1px solid var(--neon-cyan);
+  border-right: 1px solid var(--neon-cyan);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.cyber-grid {
+  background-image: 
+    linear-gradient(rgba(0, 186, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 186, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  mask-image: radial-gradient(circle at center, black, transparent 80%);
+}
+
+.cyber-card {
+  background: rgba(10, 12, 20, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 186, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.cyber-card:hover {
+  border-color: rgba(0, 186, 255, 0.4);
+}
+
+.cyber-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+  animation: scan 4s linear infinite;
+}
+
+@keyframes scan {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.neon-text {
+  text-shadow: 0 0 8px rgba(0, 186, 255, 0.6);
+}
+
+.neon-text-rose {
+  text-shadow: 0 0 8px rgba(244, 63, 94, 0.6);
+}
+
+/* Glitch Effect */
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.glitch:hover::before {
+  animation: glitch-anim 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: #0ff;
+  z-index: -1;
+}
+
+.glitch:hover::after {
+  animation: glitch-anim 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+  color: #f0f;
+  z-index: -2;
+}
+
+@keyframes glitch-anim {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+/* Scanline Overlay */
+.scanline {
+  width: 100%;
+  height: 100px;
+  z-index: 10;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 186, 255, 0.02) 50%, rgba(0, 0, 0, 0) 100%);
+  opacity: 0.1;
+  position: fixed;
+  bottom: 100%;
+  left: 0;
+  pointer-events: none;
+  animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+  0% { bottom: 100%; }
+  100% { bottom: -100px; }
+}
+
+/* Leaflet Cyber Mode */
+.leaflet-container {
+  background: #02040a !important;
+}
+.leaflet-tile {
+  filter: brightness(0.4) invert(1) contrast(3) hue-rotate(180deg) saturate(0.5) brightness(0.6);
+}
+.leaflet-popup-content-wrapper {
+  background: rgba(10, 12, 20, 0.9) !important;
+  backdrop-filter: blur(10px);
+  color: #fff !important;
+  border: 1px solid rgba(0, 186, 255, 0.2);
+  border-radius: 12px !important;
+}
+.leaflet-popup-tip {
+  background: rgba(10, 12, 20, 0.9) !important;
+}
+
+.cyber-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.cyber-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.cyber-button:hover::after {
+  transform: translateX(100%);
+}
+

@@ -1,0 +1,5 @@
+{
+  "name": "RoadGuard AI Dashboard",
+  "description": "Real-time road damage detection and MLOps monitoring dashboard for Coimbatore city infrastructure.",
+  "requestFramePermissions": ["geolocation"]
+}
