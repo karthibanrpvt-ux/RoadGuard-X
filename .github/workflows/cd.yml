@@ -40,13 +40,13 @@ jobs:
         run: |
           python -c "from main import app; print(app.title)"
 
-      - name: Deploy placeholder
-        env:
-          DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
-        run: |
-          if [ -z "$DEPLOY_WEBHOOK_URL" ]; then
-            echo "DEPLOY_WEBHOOK_URL secret is not configured."
-            echo "Create it in GitHub repo settings and point it to your deployment endpoint."
-            exit 1
-          fi
-          curl -X POST "$DEPLOY_WEBHOOK_URL"
+#      - name: Deploy placeholder
+#        env:
+#          DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
+#        run: |
+#          if [ -z "$DEPLOY_WEBHOOK_URL" ]; then
+#            echo "DEPLOY_WEBHOOK_URL secret is not configured."
+#            echo "Create it in GitHub repo settings and point it to your deployment endpoint."
+#            exit 1
+#          fi
+#          curl -X POST "$DEPLOY_WEBHOOK_URL"
