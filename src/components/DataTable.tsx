@@ -37,7 +37,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
               <th className="px-10 py-5">Classification</th>
               <th className="px-10 py-5">Priority</th>
               <th className="px-10 py-5">Confidence</th>
-              <th className="px-10 py-5">Geo-Coordinates</th>
+              <th className="px-10 py-5">Location</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-white/5">
@@ -83,6 +83,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
                   </div>
                 </td>
                 <td className="px-10 py-5 text-slate-600 text-[10px] font-mono group-hover:text-cyan-400 transition-colors">
+                  <div className="font-bold text-slate-300 mb-1">{item.location}</div>
                   {item.latitude.toFixed(6)}°N <span className="mx-1 text-white/10">|</span> {item.longitude.toFixed(6)}°E
                 </td>
               </motion.tr>

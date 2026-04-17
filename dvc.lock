@@ -1,0 +1,23 @@
+schema: '2.0'
+stages:
+  prepare_data:
+    cmd: python scripts/prepare_data.py --input data/raw/sample_manifest.csv 
+      --output data/processed/manifest_clean.csv
+    deps:
+    - path: data/raw/sample_manifest.csv
+      hash: md5
+      md5: 24bc32e6d45a82e92d76f1b458b46b94
+      size: 268
+    - path: params.yaml
+      hash: md5
+      md5: 2936f82716d6bd91cdf1b787d534a539
+      size: 281
+    - path: scripts/prepare_data.py
+      hash: md5
+      md5: c3cdf25e434655e5c06316f77ec563e3
+      size: 1622
+    outs:
+    - path: data/processed/manifest_clean.csv
+      hash: md5
+      md5: 24bc32e6d45a82e92d76f1b458b46b94
+      size: 268

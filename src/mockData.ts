@@ -1,11 +1,22 @@
 import { RoadDamage, Severity, DamageClass, DriftData } from './types';
 
+export const COIMBATORE_LOCATION = 'Coimbatore, Tamil Nadu';
+
 const COIMBATORE_BOUNDS = {
   latMin: 10.95,
   latMax: 11.05,
   lngMin: 76.90,
   lngMax: 77.05,
 };
+
+const COIMBATORE_AREAS = [
+  'Gandhipuram',
+  'RS Puram',
+  'Peelamedu',
+  'Singanallur',
+  'Saibaba Colony',
+  'Saravanampatti',
+];
 
 const DAMAGE_CLASSES: DamageClass[] = ['Pothole', 'Longitudinal Crack', 'Transverse Crack'];
 const SEVERITIES: Severity[] = ['Low', 'Medium', 'High'];
@@ -14,6 +25,7 @@ export const generateMockData = (count: number): RoadDamage[] => {
   return Array.from({ length: count }, (_, i) => ({
     id: `dmg-${i}`,
     timestamp: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
+    location: `${COIMBATORE_LOCATION} - ${COIMBATORE_AREAS[i % COIMBATORE_AREAS.length]}`,
     latitude: COIMBATORE_BOUNDS.latMin + Math.random() * (COIMBATORE_BOUNDS.latMax - COIMBATORE_BOUNDS.latMin),
     longitude: COIMBATORE_BOUNDS.lngMin + Math.random() * (COIMBATORE_BOUNDS.lngMax - COIMBATORE_BOUNDS.lngMin),
     damage_class: DAMAGE_CLASSES[Math.floor(Math.random() * DAMAGE_CLASSES.length)],

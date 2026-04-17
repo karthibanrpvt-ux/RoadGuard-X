@@ -191,8 +191,36 @@ body {
 .leaflet-container {
   background: #02040a !important;
 }
-.leaflet-tile {
-  filter: brightness(0.4) invert(1) contrast(3) hue-rotate(180deg) saturate(0.5) brightness(0.6);
+.roadguard-map .leaflet-tile {
+  filter: none !important;
+}
+.roadguard-map .leaflet-pane,
+.roadguard-map .leaflet-tile-pane {
+  filter: none !important;
+}
+.roadguard-map .leaflet-control-zoom {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(2, 4, 10, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.roadguard-map .leaflet-control-zoom a {
+  background: rgba(2, 4, 10, 0.9);
+  color: #e2e8f0;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.roadguard-map .leaflet-control-zoom a:hover {
+  background: rgba(0, 186, 255, 0.15);
+  color: #ffffff;
+}
+.roadguard-map .leaflet-control-attribution {
+  background: rgba(2, 4, 10, 0.72) !important;
+  color: #cbd5e1 !important;
+  backdrop-filter: blur(10px);
+  border-radius: 10px 0 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
 }
 .leaflet-popup-content-wrapper {
   background: rgba(10, 12, 20, 0.9) !important;

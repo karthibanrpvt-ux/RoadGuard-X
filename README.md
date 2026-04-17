@@ -1,56 +1,174 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
-# RoadGuard X
-# Run and deploy your AI Studio app
+# RoadGuard AI Dashboard (MLOps)
 
-This contains everything you need to run your app locally.
+Production-oriented MLOps project for road damage detection using YOLOv8, with experiment tracking, data versioning, monitoring, CI/CD automation, and an operational dashboard.
 
-View your app in AI Studio: https://ai.studio/apps/d0a2fc0c-cbfe-460a-b2c2-305e23049dea
+## Table Of Contents
 
-## Run Locally
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Workflow](#workflow)
+- [Tech Stack](#tech-stack)
+- [Repository Structure](#repository-structure)
+- [Getting Started](#getting-started)
+- [Model Training And Tracking](#model-training-and-tracking)
+- [Monitoring](#monitoring)
+- [CI/CD And Automation](#cicd-and-automation)
+- [API Quick Check](#api-quick-check)
 
-**Prerequisites:**  Node.js
+## Overview
 
+This repository combines:
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+- Frontend dashboard (Vite + React + TypeScript)
+- Backend inference/API service (Python)
+- YOLOv8 training pipeline with MLflow tracking
+- DVC-enabled reproducible data workflow
+- Monitoring and drift reporting
+- Containerized deployment (Docker + Compose)
+- Automated CI/CD and scheduled MLOps jobs (GitHub Actions + Airflow DAG support)
 
-## MLOps Setup (Implemented in this Repo)
+## Architecture
 
-This repository now includes ready-to-run GitHub Actions workflows:
+```mermaid
+flowchart LR
+    A[Road Images / Dataset] --> B[Data Preparation<br/>scripts/prepare_data.py]
+    B --> C[DVC Pipeline<br/>dvc.yaml]
+    C --> D[YOLOv8 Training<br/>scripts/train_yolo_mlflow.py]
+    D --> E[MLflow Tracking<br/>mlruns/ + mlflow.db]
+    D --> F[Model Weights<br/>PotholeDetect.pt / yolov8n.pt]
+    F --> G[Backend API<br/>main.py, inference.py]
+    G --> H[Frontend Dashboard<br/>src/]
+    G --> I[Monitoring Inputs<br/>data/monitoring/*.csv]
+    I --> J[Drift Report<br/>monitoring/generate_drift_report.py]
+    K[GitHub Actions<br/>CI/CD + Retrain Trigger] --> G
+    L[Airflow DAG<br/>dags/yolo_retrain_dag.py] --> D
+```
 
-- `.github/workflows/ci.yml`
-   - Runs on pull requests and pushes to `main`
-   - Frontend: `npm ci`, `npm run lint`, `npm run build`
-   - Backend: installs `requirements-backend.txt` and runs API tests
+## Workflow
 
-- `.github/workflows/cd.yml`
-   - Runs on pushes to `main` and manual trigger
-   - Builds frontend and validates backend import/smoke
-   - Calls a deployment webhook (you configure target)
+```mermaid
+sequenceDiagram
+    participant Dev as Developer
+    participant GitHub as GitHub Actions
+    participant Train as Training Pipeline
+    participant MLflow as MLflow
+    participant API as Backend API
+    participant UI as Dashboard
+    participant Mon as Monitoring
 
-- `.github/workflows/mlops-retrain.yml`
-   - Runs weekly (Monday 02:00 UTC) and manual trigger
-   - Calls `POST /api/v1/mlops/retrain` on your backend with bearer token
+    Dev->>GitHub: Push to main / open PR
+    GitHub->>GitHub: Run CI (lint, test, build)
+    GitHub->>Train: Trigger retrain (manual/scheduled)
+    Train->>MLflow: Log params, metrics, artifacts
+    Train->>API: Publish/refresh model artifact
+    API->>UI: Serve predictions + ops endpoints
+    API->>Mon: Emit current inference metrics/data
+    Mon->>Mon: Generate drift report
+    Mon-->>Dev: Review model health and drift status
+```
 
-## Exactly What You Need To Do (One-Time)
+## Tech Stack
 
-1. Push this code to your GitHub repository.
-2. Open GitHub repository settings and add these Actions secrets:
-    - `DEPLOY_WEBHOOK_URL`: Your deployment endpoint webhook URL.
-    - `BACKEND_BASE_URL`: Your deployed backend base URL (example: `https://api.example.com`).
-    - `MLOPS_API_TOKEN`: A strong token string used to protect retrain trigger.
-3. In your deployment environment, set backend env var:
-    - `MLOPS_API_TOKEN` = same value used in GitHub secret.
-4. Commit to `main` to trigger CI and CD automatically.
-5. Open Actions tab in GitHub and confirm all jobs are green.
-6. Manually run `MLOps Retrain Trigger` workflow once to verify retrain wiring.
+- Frontend: React, TypeScript, Vite
+- Backend: Python, FastAPI-style API pattern (project-level Python API service)
+- Computer Vision: Ultralytics YOLOv8
+- Experiment Tracking: MLflow
+- Data Versioning: DVC
+- Orchestration: Apache Airflow DAG
+- Monitoring: Evidently-based drift reporting workflow
+- DevOps: Docker, Docker Compose, GitHub Actions
 
-## Backend Security Note
+## Repository Structure
 
-The retrain endpoint now checks `Authorization: Bearer <token>` only when `MLOPS_API_TOKEN` is configured.
-If the env var is not set, endpoint behaves as open endpoint (local/dev convenience).
+```text
+src/                    Frontend app and UI components
+main.py                 Backend API entry
+inference.py            Inference logic
+scripts/                Data prep and training scripts
+monitoring/             Drift report generation
+dags/                   Airflow retraining DAG
+data/                   Raw/processed/monitoring datasets
+dataset/                YOLO image/label dataset
+mlruns/                 MLflow experiment artifacts
+dvc.yaml                DVC pipeline definition
+docker-compose.yml      Local multi-service orchestration
+Dockerfile*             Frontend/backend container images
+```
+
+## Getting Started
+
+### 1. Prerequisites
+
+- Node.js 18+
+- Python 3.10+
+- Docker Desktop (optional but recommended)
+
+### 2. Frontend Setup
+
+```bash
+npm install
+npm run dev
+```
+
+### 3. Backend Setup
+
+```bash
+pip install -r requirements-backend.txt
+python main.py
+```
+
+### 4. Full Stack With Docker Compose
+
+```bash
+docker compose up --build
+```
+
+Frontend: `http://localhost:3000`  
+Backend health: `http://localhost:8000/api/v1/mlops/health`
+
+## Model Training And Tracking
+
+Install MLOps dependencies and train with MLflow tracking:
+
+```bash
+pip install -r requirements-mlops.txt
+python scripts/train_yolo_mlflow.py --data data.yaml --model yolov8n.pt --epochs 50 --imgsz 640
+```
+
+Run MLflow UI:
+
+```bash
+mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns --host 127.0.0.1 --port 5000
+```
+
+## Monitoring
+
+Generate a drift report from reference vs current datasets:
+
+```bash
+python monitoring/generate_drift_report.py --reference data/monitoring/reference.csv --current data/monitoring/current.csv --output reports/data_drift_report.html
+```
+
+## CI/CD And Automation
+
+Implemented workflows include:
+
+- CI: lint, build, and tests on PR/push
+- CD: build and deploy pipeline on main
+- Scheduled/manual retrain trigger with token-based API call
+
+Recommended GitHub repository secrets:
+
+- `DEPLOY_WEBHOOK_URL`
+- `BACKEND_BASE_URL`
+- `MLOPS_API_TOKEN`
+
+## API Quick Check
+
+```bash
+curl http://localhost:8000/api/v1/mlops/health
+```
+
+## License
+
+Add your preferred license (MIT/Apache-2.0/proprietary) before production distribution.

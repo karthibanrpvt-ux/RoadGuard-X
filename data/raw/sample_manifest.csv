@@ -1,0 +1,4 @@
+image_path,video_id,frame_index,bbox_x1,bbox_y1,bbox_x2,bbox_y2,class_name
+frames/video_a/frame_0001.jpg,video_a,1,120,200,220,280,pothole
+frames/video_a/frame_0002.jpg,video_a,2,118,202,222,281,pothole
+frames/video_b/frame_0001.jpg,video_b,1,80,160,140,210,crack

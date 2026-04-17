@@ -6,3 +6,15 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Python caches and test output
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# MLOps and experiment artifacts
+mlruns/
+reports/
+
+# DVC local cache
+.dvc/cache/

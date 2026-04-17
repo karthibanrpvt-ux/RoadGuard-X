@@ -1,0 +1,17 @@
+# Starter YOLO dataset config for RoadGuard X
+# Put your dataset in the folder shown by `path`.
+# Required structure:
+# dataset/
+#   images/train/
+#   images/val/
+#   labels/train/
+#   labels/val/
+
+path: dataset
+train: images/train
+val: images/val
+
+names:
+  0: pothole
+  1: longitudinal_crack
+  2: transverse_crack

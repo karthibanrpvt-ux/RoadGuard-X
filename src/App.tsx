@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { generateMockData, generateDriftData } from './mockData';
+import { COIMBATORE_LOCATION, generateMockData, generateDriftData } from './mockData';
 import { DamageClass, Severity } from './types';
 import Navbar from './components/Navbar';
 import CustomCursor from './components/CustomCursor';
@@ -15,7 +15,7 @@ import PipelineTopology from './components/PipelineTopology';
 import { RefreshCcw, Download, Share2, Terminal, Shield, Globe, Cpu, Activity, Zap, Eye, Target, Database } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-const API_BASE_URL = 'http://localhost:8000/api/v1';
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? 'http://localhost:8000/api/v1';
 
 export default function App() {
   const [allData, setAllData] = useState(() => generateMockData(50));
@@ -33,6 +33,7 @@ export default function App() {
           const transformed = json.data.map((item: any) => ({
             id: item.id,
             timestamp: item.timestamp,
+            location: item.location ?? COIMBATORE_LOCATION,
             latitude: item.latitude,
             longitude: item.longitude,
             damage_class: item.damage_class,
@@ -87,6 +88,7 @@ export default function App() {
           const transformed = json.data.map((item: any) => ({
             id: item.id,
             timestamp: item.timestamp,
+            location: item.location ?? COIMBATORE_LOCATION,
             latitude: item.latitude,
             longitude: item.longitude,
             damage_class: item.damage_class,
@@ -128,7 +130,7 @@ export default function App() {
           </div>
           <div className="absolute bottom-8 right-8 flex flex-col items-end gap-4">
             <div className="text-[8px] font-black text-cyan-500/50 uppercase tracking-[0.5em] mb-4">
-              Sector_07_Active
+              Coimbatore_Sector_07_Active
             </div>
             <div className="w-32 h-1 bg-gradient-to-l from-cyan-500/50 to-transparent rounded-full" />
           </div>
@@ -146,7 +148,7 @@ export default function App() {
                 System Live
               </span>
               <span className="text-slate-600 text-[10px] font-black uppercase tracking-[0.2em]">
-                Sector: Coimbatore_Grid_07
+                Sector: Coimbatore_Grid_07 | Location: {COIMBATORE_LOCATION}
               </span>
             </div>
             <h2 className="text-6xl font-black text-white font-display tracking-tighter leading-none glitch" data-text="NEURAL SURVEILLANCE">

@@ -1,0 +1,9 @@
+stages:
+  prepare_data:
+    cmd: python scripts/prepare_data.py --input data/raw/sample_manifest.csv --output data/processed/manifest_clean.csv
+    deps:
+      - scripts/prepare_data.py
+      - data/raw/sample_manifest.csv
+      - params.yaml
+    outs:
+      - data/processed/manifest_clean.csv

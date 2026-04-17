@@ -1,0 +1,17 @@
+prepare_data:
+  deduplicate_by:
+    - video_id
+    - frame_index
+    - bbox_x1
+    - bbox_y1
+    - bbox_x2
+    - bbox_y2
+  required_columns:
+    - image_path
+    - video_id
+    - frame_index
+    - bbox_x1
+    - bbox_y1
+    - bbox_x2
+    - bbox_y2
+    - class_name

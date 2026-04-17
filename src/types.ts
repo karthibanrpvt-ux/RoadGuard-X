@@ -4,6 +4,7 @@ export type DamageClass = 'Pothole' | 'Longitudinal Crack' | 'Transverse Crack';
 export interface RoadDamage {
   id: string;
   timestamp: string;
+  location: string;
   latitude: number;
   longitude: number;
   damage_class: DamageClass;

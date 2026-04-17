@@ -99,7 +99,7 @@ const EdgeSimulation: React.FC = () => {
 
   const runProcessingAnimation = () => {
     const steps = [
-      'Uploading video stream to edge gateway...',
+      'Uploading video stream to Coimbatore edge gateway...',
       'Decoding frames and initializing model context...',
       'Running quantized YOLOv8 inference...',
       'Generating frame-synced overlays...',
@@ -131,7 +131,7 @@ const EdgeSimulation: React.FC = () => {
     setCurrentFrame(0);
     setIsPlaying(false);
 
-    pushLog('[SYSTEM] Video received. Starting backend processing...');
+    pushLog('[SYSTEM] Video received from Coimbatore sector. Starting backend processing...');
     const animationId = runProcessingAnimation();
 
     const formData = new FormData();
@@ -154,7 +154,7 @@ const EdgeSimulation: React.FC = () => {
 
       setProcessingStep('Processing complete. Rendering output...');
       setProcessingProgress(100);
-      pushLog(`[SUCCESS] Processing complete. ${result.detections_count} detections generated.`);
+      pushLog(`[SUCCESS] Processing complete. ${result.detections_count} detections generated for Coimbatore.`);
       pushLog('[SYSTEM] Video ready with frame-synced pothole overlays.');
     } catch (err) {
       pushLog(`[ERROR] ${String(err)}`);

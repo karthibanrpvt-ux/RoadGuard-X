@@ -5,14 +5,14 @@ const CyberTerminal: React.FC = () => {
   const [lines, setLines] = useState<string[]>([]);
   const logs = [
     "[INFO] Initializing Neural Link...",
-    "[OK] Connection established to Sector 07",
-    "[WARN] Minor drift detected in Edge Node 01",
+    "[OK] Connection established to Coimbatore Sector 07",
+    "[WARN] Minor drift detected in Coimbatore Edge Node 01",
     "[INFO] Syncing geospatial matrix...",
     "[OK] YOLOv8 inference engine: ACTIVE",
-    "[INFO] Monitoring road infrastructure...",
-    "[DATA] Pothole detected at 11.0183, 76.9558",
+    "[INFO] Monitoring road infrastructure across Coimbatore...",
+    "[DATA] Pothole detected at Gandhipuram, Coimbatore (11.0183, 76.9558)",
     "[DATA] Confidence: 0.94",
-    "[INFO] Updating global damage map...",
+    "[INFO] Updating Coimbatore damage map...",
     "[OK] System integrity: 98.4%",
   ];
 
