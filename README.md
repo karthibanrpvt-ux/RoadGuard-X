@@ -4,6 +4,7 @@ Production-oriented MLOps project for road damage detection using YOLOv8, with e
 
 ## Table Of Contents
 
+- [Project Description](#project-description)
 - [Overview](#overview)
 - [Architecture](#architecture)
 - [Workflow](#workflow)
@@ -14,6 +15,30 @@ Production-oriented MLOps project for road damage detection using YOLOv8, with e
 - [Monitoring](#monitoring)
 - [CI/CD And Automation](#cicd-and-automation)
 - [API Quick Check](#api-quick-check)
+
+## Project Description
+
+RoadGuard AI Dashboard is an end-to-end MLOps platform for road damage intelligence. It is designed to help engineering teams and city operations teams detect potholes from road imagery, monitor model quality over time, and continuously improve the detection model through retraining workflows.
+
+The project brings data, model development, deployment, and monitoring into a single operational loop:
+
+- Data preparation and reproducible dataset processing with DVC
+- YOLOv8 model training with MLflow experiment tracking
+- API-based inference service for real-time or batch prediction use cases
+- Web dashboard for operational visibility into model outputs and pipeline state
+- Drift monitoring to detect distribution changes and trigger model maintenance
+- CI/CD automation to make updates auditable, repeatable, and production-ready
+
+### Problem Statement
+
+Road infrastructure monitoring is often manual, expensive, and slow. Delayed detection of road damage leads to safety risks, higher repair costs, and poor maintenance planning. This project addresses that gap by enabling automated pothole detection and reliable ML operations so models can be deployed and maintained with confidence.
+
+### Key Outcomes
+
+- Faster identification of road damage hotspots
+- Better traceability of model versions, metrics, and artifacts
+- Reduced deployment friction through containerized services and workflows
+- Improved model reliability via monitoring and retraining triggers
 
 ## Overview
 
